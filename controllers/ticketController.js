@@ -24,3 +24,18 @@ exports.getTickets = (req, res, next) => {
 });
 };
 
+exports.updateTicket = (req, res, next) => {
+    Ticket.findByPk(req.body.id)
+    .then(ticket => {
+        ticket.price = req.body.price,
+        ticket.packageId = req.body.packageId,
+        ticket.userId = req.body.userId,
+        ticket.seatId = req.body.seatId
+        return ticket.save();
+    }).then(result => {
+        console.log(result);
+        res.sendStatus(200);
+    }).catch(err => {
+        console.log(err);
+    }) 
+};

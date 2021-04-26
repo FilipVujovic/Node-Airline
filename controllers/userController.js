@@ -24,3 +24,22 @@ exports.getUsers = (req, res, next) => {
     console.log(err);
 });
 };
+
+exports.updateUser = (req, res, next) => {
+    User.findByPk(req.body.id)
+    .then(user => {
+        user.firstName = req.body.firstName,
+        user.lastName = req.body.lastName,
+        user.jmbg = req.body.jmbg,
+        user.adress = req.body.adress,
+        user.contact = req.body.contact,
+        user.email = req.body.email,
+        user.password = req.body.password
+        return user.save();
+    }).then(result => {
+        console.log(result);
+        res.sendStatus(200);
+    }).catch(err => {
+        console.log(err);
+    }) 
+};

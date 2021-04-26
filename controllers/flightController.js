@@ -25,3 +25,22 @@ exports.getFlights = (req, res, next) => {
     console.log(err);
 });
 };
+
+exports.updateFlight = (req, res, next) => {
+    Flight.findByPk(req.body.id)
+    .then(flight => {
+        flight.departureDate = req.body.departureDate,
+        flight.departureTime = req.body.departureTime,
+        flight.arrivalDate = req.body.arrivalDate,
+        flight.arrivalTime = req.body.arrivalTime,
+        flight.departureAirport = req.body.departureAirport,
+        flight.airplaneId = req.body.airplaneId,
+        flight.destinationId = req.body.destinationId 
+        return flight.save();
+    }).then(result => {
+        console.log(result);
+        res.sendStatus(200);
+    }).catch(err => {
+        console.log(err);
+    }) 
+}

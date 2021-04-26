@@ -23,3 +23,17 @@ exports.getCountries = (req, res, next) => {
 });
 };
 
+exports.updateCountry = (req, res, next) => {
+    Country.findByPk(req.body.id)
+    .then(country => {
+       country.code = req.body.code;
+       country.fullName = req.body.fullName;
+        return country.save();
+    }).then(result => {
+        console.log(result);
+        res.sendStatus(200);
+    }).catch(err => {
+        console.log(err);
+    }) 
+}
+
