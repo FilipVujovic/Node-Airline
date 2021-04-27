@@ -40,3 +40,12 @@ exports.getDestinations = (req, res, next) => {
     console.log(err);
 });
 };
+
+exports.deleteDestination = (req, res, next) => {
+    Destination.findByPk(req.body.id).then(destination => {
+        destination.destroy();
+    })
+    .catch(err => {
+        console.log(err);
+    })
+};

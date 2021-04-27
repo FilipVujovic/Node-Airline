@@ -30,4 +30,20 @@ router.get('/tickets', ticketController.getTickets);
 router.get('/users', userController.getUsers);
 
 router.put('/airplanes/:airplaneId', airplaneController.updateAirplane);
+router.put('/countries/:code', countryController.updateCountry);
+router.put('/destinations/:destinationId', destinationController.updateDestination);
+router.put('/flights/:flightId', flightController.updateFlight);
+router.put('/packages/:packageId', packageController.updatePackage);
+router.put('/seats/:seatId', seatController.updateSeat);
+router.put('/tickets/:ticketId', ticketController.updateTicket);
+router.put('/users/:userId', userController.updateUser);
+
+router.delete('/airplanes/:airplaneId', airplaneController.deleteAirplane);
+router.delete('/countries/:code', countryController.deleteCountry);
+router.delete('/destinations/:destinationId', destinationController.deleteDestination);
+router.delete('/flights/:flightId', flightController.deleteFlight);
+router.delete('/packages/:packageId', packageController.deletePackage);
+router.delete('/seats/:seatId', seatController.deleteSeat);
+router.delete('/tickets/:ticketId', ticketController.deleteTicket);
+router.delete('/users/:userId', userController.deleteUser);
 module.exports = router;

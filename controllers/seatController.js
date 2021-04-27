@@ -22,3 +22,12 @@ exports.updateSeat = (req, res, next) => {
         console.log(err);
     }) 
 };
+
+exports.deleteSeat = (req, res, next) => {
+    Seat.findByPk(req.body.id).then(seat => {
+        seat.destroy();
+    })
+    .catch(err => {
+        console.log(err);
+    })
+};

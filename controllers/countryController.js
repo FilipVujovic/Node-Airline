@@ -35,5 +35,14 @@ exports.updateCountry = (req, res, next) => {
     }).catch(err => {
         console.log(err);
     }) 
-}
+};
+
+exports.deleteCountry = (req, res, next) => {
+    Country.findByPk(req.body.code).then(country => {
+        country.destroy();
+    })
+    .catch(err => {
+        console.log(err);
+    })
+};
 

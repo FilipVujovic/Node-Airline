@@ -43,3 +43,13 @@ exports.updateUser = (req, res, next) => {
         console.log(err);
     }) 
 };
+
+
+exports.deleteUser = (req, res, next) => {
+    User.findByPk(req.body.id).then(user => {
+        user.destroy();
+    })
+    .catch(err => {
+        console.log(err);
+    })
+};

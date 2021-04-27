@@ -39,3 +39,13 @@ exports.updateTicket = (req, res, next) => {
         console.log(err);
     }) 
 };
+
+
+exports.deleteTicket = (req, res, next) => {
+    Ticket.findByPk(req.body.id).then(ticket => {
+        ticket.destroy();
+    })
+    .catch(err => {
+        console.log(err);
+    })
+};

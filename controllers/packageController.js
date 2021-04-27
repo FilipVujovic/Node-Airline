@@ -33,3 +33,12 @@ exports.updatePackage = (req, res, next) => {
         console.log(err);
     }) 
 };
+
+exports.deletePackage = (req, res, next) => {
+    Package.findByPk(req.body.id).then(package => {
+        package.destroy();
+    })
+    .catch(err => {
+        console.log(err);
+    })
+};

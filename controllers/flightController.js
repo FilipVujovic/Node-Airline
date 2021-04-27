@@ -43,4 +43,13 @@ exports.updateFlight = (req, res, next) => {
     }).catch(err => {
         console.log(err);
     }) 
-}
+};
+
+exports.deleteFlight = (req, res, next) => {
+    Flight.findByPk(req.body.id).then(flight => {
+        flight.destroy();
+    })
+    .catch(err => {
+        console.log(err);
+    })
+};
