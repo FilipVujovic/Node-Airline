@@ -1,4 +1,3 @@
-const path = require('path');
 
 const express = require('express');
 
@@ -10,6 +9,7 @@ const packageController = require('../controllers/packageController');
 const userController = require('../controllers/userController');
 const ticketController = require('../controllers/ticketController');
 const seatController = require('../controllers/seatController');
+
 const router = express.Router();
 
 router.post('/add-country', countryController.addCountry);
@@ -46,4 +46,5 @@ router.delete('/packages/:packageId', packageController.deletePackage);
 router.delete('/seats/:seatId', seatController.deleteSeat);
 router.delete('/tickets/:ticketId', ticketController.deleteTicket);
 router.delete('/users/:userId', userController.deleteUser);
+
 module.exports = router;
