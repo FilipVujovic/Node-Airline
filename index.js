@@ -3,7 +3,7 @@ const express = require('express');
 const modelImports = require('./util/modelImports');
 
 
-
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const sequelize = require('./util/database');
 const session = require('express-session');
@@ -14,7 +14,7 @@ const authRoutes = require('./routes/authRoutes');
 
 const app = express();
 
-
+app.use(cors());
 app.use(express.json());
 
 // secret - hash kod koji se koristi za kriptovanje 
@@ -43,7 +43,7 @@ sequelize
   .sync()
   .then(result => {
     console.log(result);
-    app.listen(3000);
+    app.listen(9000);
   })
   .catch(err => {
     console.log(err);
