@@ -37,6 +37,7 @@ exports.updateAirplane = (req, res, next) => {
         res.sendStatus(200);
     }).catch(err => {
         console.log(err);
+        res.sendStatus(400);
     }) 
 };
 

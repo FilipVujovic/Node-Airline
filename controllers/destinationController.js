@@ -4,10 +4,12 @@ exports.addDestination = (req, res, next) => {
     const airportCode = req.body.airportCode;
     const airportFullName = req.body.airportFullName;
     const countryCode = req.body.countryCode;
+    const city = req.body.city;
     Destination.create({
         airportCode: airportCode,
         airportFullName: airportFullName,
-        countryCode: countryCode
+        countryCode: countryCode,
+        city: city
     }).then(result => {
         console.log(result);
         res.sendStatus(200);
@@ -16,7 +18,6 @@ exports.addDestination = (req, res, next) => {
         res.sendStatus(300);
     })
 };
-
 exports.updateDestination = (req, res, next) => {
     Destination.findByPk(req.body.id)
     .then(destination => {
@@ -32,6 +33,12 @@ exports.updateDestination = (req, res, next) => {
     }) 
 }
 
+exports.getDestinationsById = (req, res, next) => {
+    console.log('test');
+    Destination.findByPk(req.params.destinationId).then((destination) => {
+        res.json(destination);
+    })
+}
 
 exports.getDestinations = (req, res, next) => {
     Destination.findAll().then((destinations) => {

@@ -16,6 +16,10 @@ const Destination = sequelize.define('destination', {
     airportFullName: {
         type: Sequelize.STRING,
         allowNull: false
+    }, 
+    city: {
+        type: Sequelize.STRING,
+        allowNull: false
     }
 });
 

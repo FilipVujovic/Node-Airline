@@ -12,7 +12,8 @@ exports.getLogin = (req, res, next) => {
 exports.postLogin = (req, res, next) => {
     const password = req.body.password;
     const email = req.body.email;
-    console.log(email.split('@')[1]);
+    const sessionID = req.sessionID;
+    console.log('SESIJA: '+sessionID);
     User.findOne({ where: { email: email } })
     .then(user => {
         if (!user) {
@@ -28,15 +29,16 @@ exports.postLogin = (req, res, next) => {
                     req.session.isLoggedIn = true;
                     req.session.isAdmin = true;
                     req.session.user = user;
+                    req.session.idCode = sessionID;
                     return req.session.save(err => {
-                      console.log(err);
-                      res.sendStatus(200);
+                        console.log(err);
+                      res.send(req.session);
                     });
                 } else {
                     req.session.isLoggedIn = true;
                     req.session.user = user;
-                    return req.session.save(err => {
-                      console.log(err);
+                    return req.session.save(result => {
+                      console.log(result);
                       res.sendStatus(200);
                     });
                 }
@@ -53,10 +55,8 @@ exports.postLogin = (req, res, next) => {
   };
 
 exports.postLogout = (req, res, next) => {
-    req.session.destroy((err) => {
-        console.log(err);
-        res.redirect('/');
-    });
+    req.session.destroy();
+    res.sendStatus(200);
 };
 
 exports.postSignUp = (req, res, next) => {

@@ -29,6 +29,10 @@ const Flight = sequelize.define('flight', {
     departureAirport: {
         type: Sequelize.STRING,
         allowNull: false
+    },
+    departureCity: {
+        type: Sequelize.STRING,
+        allowNull: false
     }
 });
 module.exports = Flight;

@@ -8,12 +8,13 @@ const bodyParser = require('body-parser');
 const sequelize = require('./util/database');
 const session = require('express-session');
 const mySqlStore = require('connect-session-sequelize')(session.Store);
+const cookies = require('cookie-parser');
 
 const adminRoutes = require('./routes/adminRoutes');
 const authRoutes = require('./routes/authRoutes');
 
 const app = express();
-
+app.use(cookies());
 app.use(cors());
 app.use(express.json());
 
@@ -22,7 +23,8 @@ app.use(session({
   secret: 'secret',
   resave: false, 
   saveUninitialized: false,
-  store: new mySqlStore({db: sequelize})
+  store: new mySqlStore({db: sequelize}),
+  unset: 'destroy'
 }));
 app.use(adminRoutes);
 app.use(authRoutes);

@@ -8,7 +8,8 @@ exports.addFlight = (req, res, next) => {
         arrivalTime : req.body.arrivalTime,
         departureAirport: req.body.departureAirport,
         airplaneId : req.body.airplaneId,
-        destinationId : req.body.destinationId 
+        destinationId : req.body.destinationId,
+        departureCity : req.body.departureCity
     }).then(result => {
         console.log(result);
         res.sendStatus(200);
@@ -42,6 +43,7 @@ exports.updateFlight = (req, res, next) => {
         res.sendStatus(200);
     }).catch(err => {
         console.log(err);
+        res.sendStatus(404);
     }) 
 };
 
