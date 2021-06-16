@@ -1,12 +1,23 @@
 const Seat = require('../models/seat');
 
-exports.getPackages = (req, res, next) => {
+exports.getSeats = (req, res, next) => {
     Seat.findAll().then((seats) => {
         res.json(seats);
     }).catch((err) => {
     console.log(err);
 });
 };
+
+exports.getSeatsForFlight = (req, res, next) => {
+    Seat.findAll({where: {
+        flightId : req.params.flightId,
+        reserved : 0
+    }}).then((seats) => {
+        res.json(seats);
+    }).catch((err) => {
+        console.log(err);
+    })
+}
 
 exports.updateSeat = (req, res, next) => {
     Seat.findByPk(req.body.id)

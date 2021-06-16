@@ -36,17 +36,17 @@ exports.postLogin = (req, res, next) => {
                     });
                 } else {
                     req.session.isLoggedIn = true;
+                    req.session.isAdmin = false;
                     req.session.user = user;
                     return req.session.save(result => {
                       console.log(result);
-                      res.sendStatus(200);
+                      res.send(req.session);
                     });
                 }
             }
-            console.log('Incorrect password!');
-            res.sendStatus(400);
           })
           .catch(err => {
+              console.log("aaaaaaaaaaaaaaaaa")
             console.log(err);
             res.sendStatus(400);
           });

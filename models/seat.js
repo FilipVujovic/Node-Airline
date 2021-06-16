@@ -5,6 +5,7 @@ const sequelize = require('../util/database');
 const Seat = sequelize.define('seat', {
     id: {
         type: Sequelize.INTEGER,
+        autoIncrement: true,
         allowNull: false,
         primaryKey: true
     },
@@ -14,6 +15,10 @@ const Seat = sequelize.define('seat', {
     },
     rowNumber:{
         type: Sequelize.STRING,
+        allowNull: false
+    },
+    reserved: {
+        type: Sequelize.BOOLEAN,
         allowNull: false
     }
 });

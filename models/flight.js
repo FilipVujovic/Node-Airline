@@ -8,7 +8,7 @@ const Flight = sequelize.define('flight', {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         allowNull: false,
-        primaryKey: true
+        primaryKey: true,
     },
     departureDate: {
         type: Sequelize.DATE,

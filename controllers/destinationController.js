@@ -33,8 +33,9 @@ exports.updateDestination = (req, res, next) => {
     }) 
 }
 
+
+
 exports.getDestinationsById = (req, res, next) => {
-    console.log('test');
     Destination.findByPk(req.params.destinationId).then((destination) => {
         res.json(destination);
     })

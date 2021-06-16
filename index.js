@@ -17,7 +17,6 @@ const app = express();
 app.use(cookies());
 app.use(cors());
 app.use(express.json());
-
 // secret - hash kod koji se koristi za kriptovanje 
 app.use(session({
   secret: 'secret',
