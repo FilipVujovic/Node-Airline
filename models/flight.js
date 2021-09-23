@@ -11,7 +11,7 @@ const Flight = sequelize.define('flight', {
         primaryKey: true,
     },
     departureDate: {
-        type: Sequelize.DATE,
+        type: Sequelize.DATEONLY,
         allowNull: false
     },
     departureTime: {
@@ -19,7 +19,7 @@ const Flight = sequelize.define('flight', {
         allowNull: false
     },
     arrivalDate: {
-        type: Sequelize.DATE,
+        type: Sequelize.DATEONLY,
         allowNull: false
     },
     arrivalTime: {

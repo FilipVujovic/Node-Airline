@@ -1,83 +1,72 @@
-const User = require('../models/user');
-const bcrypt = require('bcryptjs');
+const User = require("../models/user");
+const authService = require("../services/authService");
+const { validationResult } = require("express-validator");
+const jwt = require("jsonwebtoken");
 
-exports.getLogin = (req, res, next) => {
-    // const isLoggedIn = req.get('Cookie').split(';')[1].trim().split('=')[1];
-    console.log(req.session);
+
+exports.valiadteToken = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  if(!token) return res.status(401).send("Authorization failed : No token found!");
+  
+  jwt.verify(token, "b5508b33965648eca9f41a78fddd0b4745d39def1f641aee61ea31db49388183", (err, user) => {
+    if(!err) {
+      req.user = user;
+      next();
+    } else {
+      return res.status(401).send("Unauthorized!");
+    }
+  })
 };
 
+exports.isAdmin = (req, res, next) => {
+  console.log(req.user);
+  if(req.user && !req.user.role.admin) {
+    return res.status(401).send("Unauthorized : You are not an admin!");
+  } else {
+    next();
+  }
+}
 
-// Sto se tice postLogin metode, u svakom slucaju cemo uci u then blok compare metode.
-// Compare metoda vraca true ili false u zavisnosti od prosledjene sifre.
 exports.postLogin = (req, res, next) => {
-    const password = req.body.password;
-    const email = req.body.email;
-    const sessionID = req.sessionID;
-    console.log('SESIJA: '+sessionID);
-    User.findOne({ where: { email: email } })
-    .then(user => {
-        if (!user) {
-            console.log(user);
-            console.log('User not found!');
-            return res.sendStatus(400);
-        }
-        bcrypt
-          .compare(password, user.password)
-          .then(doMatch => {
-            if (doMatch) {
-                if(email.split('@')[1] == 'jakarta.com') {
-                    req.session.isLoggedIn = true;
-                    req.session.isAdmin = true;
-                    req.session.user = user;
-                    req.session.idCode = sessionID;
-                    return req.session.save(err => {
-                        console.log(err);
-                      res.send(req.session);
-                    });
-                } else {
-                    req.session.isLoggedIn = true;
-                    req.session.isAdmin = false;
-                    req.session.user = user;
-                    return req.session.save(result => {
-                      console.log(result);
-                      res.send(req.session);
-                    });
-                }
-            }
-          })
-          .catch(err => {
-              console.log("aaaaaaaaaaaaaaaaa")
-            console.log(err);
-            res.sendStatus(400);
-          });
-      })
-      .catch(err => console.log(err));
-  };
+  const validationErrors = validationResult(req);
+  if (!validationErrors.isEmpty())
+    return res.status(422).send("Validation failed!");
+  authService
+    .loginUser(req.body)
+    .then((result) => {
+      res.status(200).json(result);
+    })
+    .catch((err) => {
+      console.log(err);
+      if (err == "Error: User not found!") {
+        return res.status(404).send(err.toString());
+      } else if (err == "Error: Password incorrect!") {
+        return res.status(400).send(err.toString());
+      }
+    });
+};
 
 exports.postLogout = (req, res, next) => {
-    req.session.destroy();
-    res.sendStatus(200);
+  req.session.destroy();
+  res.sendStatus(200);
 };
 
 exports.postSignUp = (req, res, next) => {
-    User.findOne({ where: { email: req.body.email } }).then((user) => {
-        if(user) return res.sendStatus(400);
-        return bcrypt.hash(req.body.password, 12).then((hashedPassword) => {
-            User.create({
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
-                jmbg: req.body.jmbg,
-                adress: req.body.adress,
-                contact: req.body.contact,
-                email: req.body.email,
-                password: hashedPassword
-            }).then((result) => {
-                console.log(result);
-                res.sendStatus(201);
-            });
-        });
+  const validationErrors = validationResult(req);
+  if (!validationErrors.isEmpty())
+    return res.status(422).send("Validation failed!");
+
+  authService
+    .signupUser(req.body)
+    .then((result) => {
+      res.status(201).json(result);
     })
     .catch((err) => {
-        console.log(err);
+      if (err == "Error: User exists in the database!") {
+        return res.status(422).send("Validation failed : " + err);
+      } else {
+        return res.status(500).send("Internal server error : " + err);
+      }
     });
-}
+};

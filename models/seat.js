@@ -20,6 +20,10 @@ const Seat = sequelize.define('seat', {
     reserved: {
         type: Sequelize.BOOLEAN,
         allowNull: false
+    },
+    class : {
+        type: Sequelize.INTEGER,
+        allowNull: false
     }
 });
 module.exports = Seat;

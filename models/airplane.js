@@ -20,6 +20,18 @@ const Airplane = sequelize.define('airplane', {
     capacity: {
         type: Sequelize.INTEGER,
         allowNull: false
+    },
+    firstClassCap : {
+        type: Sequelize.INTEGER,
+        allowNull: false
+    },
+    buisnessClassCap : {
+        type: Sequelize.INTEGER,
+        allowNull: false
+    },
+    economyClassCap : {
+        type: Sequelize.INTEGER,
+        allowNull: false
     }
 });
 module.exports = Airplane;

@@ -1,5 +1,10 @@
 module.exports = (req, res, next) => {
+    
     // 401 - Unauthorized
-    if(!req.session.isAdmin) return res.sendStatus(401);      
-    next();
+    console.log(req.user);
+    if(req.user && !req.user.role.admin) {
+        next(new Error('You are not an admin'));
+      } else {
+        next();
+      }
 }
