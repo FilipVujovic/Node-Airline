@@ -11,12 +11,10 @@ router.post(
   controllerImports.countryController.addCountry
 );
 
-router.get("/countries", controllerImports.countryController.getCountries);
-
-// router.put(
-//   "/countries/:code",
-//   controllerImports.countryController.updateCountry
-// );
+router.get(
+  "/countries",
+  controllerImports.countryController.getCountries
+);
 
 router.delete(
   "/countries",

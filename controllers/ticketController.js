@@ -1,7 +1,9 @@
 const Ticket = require("../models/ticket");
 const ticketService = require("../services/ticketService");
 const { validationResult } = require("express-validator");
-const stripe = require('stripe')('sk_test_51Jc94jKV4HDtsqkA7XHzu9TjHdew7haphQsrNokqvTLaP1fEsK9hX63XtU8STF8ZJJ6h5OJiE44049yBZ0D4NBoS00hEOWGEwz');
+const stripe = require("stripe")(
+  "sk_test_51Jc94jKV4HDtsqkA7XHzu9TjHdew7haphQsrNokqvTLaP1fEsK9hX63XtU8STF8ZJJ6h5OJiE44049yBZ0D4NBoS00hEOWGEwz"
+);
 
 exports.addTicket = (req, res, next) => {
   const validationErrors = validationResult(req);
@@ -30,20 +32,25 @@ exports.stripeHandler = async (req, res, next) => {
   const session = await stripe.checkout.sessions.create({
     line_items: [
       {
-        price: 'price_1JcTfGKV4HDtsqkA4ywk7QPj',
-        quantity: 1,
-      },
+        price: "price_1JcTfGKV4HDtsqkA4ywk7QPj",
+        quantity: 1
+      }
     ],
-    payment_method_types: [
-      'card',
-    ],
-    mode: 'payment',
-    success_url: 'http://localhost:3000/success?success=true&packageId=' + req.body.packageId + '&userId=' + req.body.userId + '&flightId=' + req.body.flightId + '&seatId=' + req.body.seatId,
-    cancel_url: `http://localhost:3000/failed?canceled=true`,
+    payment_method_types: ["card"],
+    mode: "payment",
+    success_url:
+      "http://localhost:3000/success?success=true&packageId=" +
+      req.body.packageId +
+      "&userId=" +
+      req.body.userId +
+      "&flightId=" +
+      req.body.flightId +
+      "&seatId=" +
+      req.body.seatId,
+    cancel_url: `http://localhost:3000/failed?canceled=true`
   });
-  res.json({url: session.url});
-}
-
+  res.json({ url: session.url });
+};
 
 exports.getTickets = (req, res, next) => {
   Ticket.findAll()

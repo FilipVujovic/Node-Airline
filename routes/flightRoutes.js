@@ -34,8 +34,7 @@ router.get("/flightById", controllerImports.flightController.getFlightsById);
 // router.put("/updateFlight/", controllerImports.flightController.updateFlight);
 
 router.delete(
-  "/deleteFlight/",
-  check("id").notEmpty().not(),
+  "/deleteFlight",
   controllerImports.flightController.deleteFlight
 );
 
